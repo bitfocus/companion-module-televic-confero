@@ -1,0 +1,26 @@
+{
+	"id": "televic-confero",
+	"name": "televic-confero",
+	"shortname": "confero",
+	"description": "Televic Confero module for Companion",
+	"version": "0.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/bitfocus/companion-module-televic-confero.git",
+	"bugs": "https://github.com/bitfocus/companion-module-televic-confero/issues",
+	"maintainers": [
+		{
+			"name": "Stijn Deblancq",
+			"email": "stijn.deblancq@gmail.com"
+		}
+	],
+	"runtime": {
+		"type": "node18",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../dist/main.js"
+	},
+	"legacyIds": [],
+	"manufacturer": "Televic",
+	"products": ["Plixus MME", "Plixus AE-R", "Plixus WAP", "D-Cerno AE"],
+	"keywords": ["televic", "conferencing"]
+}
