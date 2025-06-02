@@ -35,5 +35,36 @@ export function UpdateFeedbacks(self: TelevicConferoInstance): void {
                 self.Pollunsubscribe(parseInt(feedback.options.seatID as string) )
             },
 		},
+		requestState: {
+			name: 'Microphone Request State',
+			type: 'boolean',
+			defaultStyle: {
+				bgcolor: combineRgb(0, 255, 0),
+				color: combineRgb(0, 255, 0),
+			},
+			options: [
+				{
+					id: 'seatID',
+					type: 'number',
+					label: 'Seat',
+					default: 1,
+					min: 0,
+					max: 200,
+				},
+			],
+			callback: (feedback) => {
+				let status = self.getRequestSeat(parseInt(feedback.options.seatID as string))?.then (data => {
+					console.log('seat request status:', feedback.options.seatID , " -  ", data)
+					return (data? data: false)
+					})
+				return Promise.resolve(status) 
+			},
+			subscribe: (feedback) => {
+                self.pollSubscribe(parseInt(feedback.options.seatID as string))
+            },
+            unsubscribe: (feedback) => {
+                self.Pollunsubscribe(parseInt(feedback.options.seatID as string) )
+            },
+		},
 	})
 }

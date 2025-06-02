@@ -76,7 +76,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 				// check the status via the api
 				try {
 					this.updateStatus(InstanceStatus.Ok)
-  					this.checkFeedbacks('micState')
+					this.checkFeedbacks('micState','requestState')
 				} catch (e: any) {
 					this.updateStatus(InstanceStatus.ConnectionFailure, e.message)
 				}
@@ -111,8 +111,24 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 		return await this._api?.GetSeat(seatId) 
 	}
 
+	async getRequestSeat(seatId: number){
+		return await this._api?.GetRequestSeat(seatId)
+	}
+
 	setSeatState(seatId: number, state: boolean, request: boolean) {
 		this._api?.SetSeat(seatId, state, request)
+	}
+
+	startMeeting(){
+		this._api?.StartLocalMeeting()
+	}
+
+	stopMeeting(){
+		this._api?.StopMeeting()
+	}
+
+	SetRecording(state:string){
+		this._api?.SetRecording(state)
 	}
 }
 

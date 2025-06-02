@@ -35,6 +35,38 @@ export function UpdateActions(self: TelevicConferoInstance):void {
 			console.log('Set Microphone State  ', seatID , " to ", state, " [", request, "]" )
 			self.setSeatState(parseInt(seatID), JSON.parse(state), JSON.parse(request))
 		},
-	}
+	},
+	startMeeting:{
+		name: "Start a Local meeting",
+		options: [],
+		callback: async () => {
+			self.startMeeting()
+			console.log("Meeting Started")
+		},
+	},
+	stopMeeting:{
+		name: "Stop a meeting",
+		options: [],
+		callback: async () => {
+			self.stopMeeting()
+			console.log("Meeting Stopped")
+		},
+	},
+	RecordingState:{
+		name: "Handle Recording",
+		options: [
+			{
+				id: 'state',
+				type: 'checkbox',
+				label: 'State',
+				default: true,
+			},
+		],
+		callback: async ({options}) => {
+			const state = await self.parseVariablesInString(options.state as string)
+			self.SetRecording(state)
+			console.log("Recording ",state)
+		},
+	},
 	})
 }
