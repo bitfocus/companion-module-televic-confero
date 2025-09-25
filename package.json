@@ -1,6 +1,6 @@
 {
 	"name": "televic-confero",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"main": "dist/main.js",
 	"type": "module",
 	"scripts": {
@@ -43,5 +43,5 @@
 			"yarn lint:raw --fix"
 		]
 	},
-	"packageManager": "yarn@4.5.3"
+	"packageManager": "yarn@4.10.2"
 }
