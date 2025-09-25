@@ -10,31 +10,30 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 	config!: TelevicConferoConfig // Setup in init()
 	private _api: TelevicApi | null = null
 
-	private _subscriptions= new Array()
+	private _subscriptions: Array<number> = []
 
-
-	public Pollunsubscribe(value: number) {
-		const index = this._subscriptions.indexOf(value, 0);
+	public async pollUnsubscribe(value: number): Promise<void> {
+		const index = this._subscriptions.indexOf(value, 0)
 		if (index > -1) {
-			console.log('unsubscribe' , value)
-			this._subscriptions.splice(index, 1);
+			this.log('debug', `unsubscribe ${value}`)
+			this._subscriptions.splice(index, 1)
 		}
-		this.shouldBePolling = this._subscriptions.length > 0 
+		this.shouldBePolling = this._subscriptions.length > 0
 		if (this.shouldBePolling && !this.isPolling) {
-			this.pollInUseStatus()
+			await this.pollInUseStatus()
 			// it stops by itself
 		}
 	}
 
-	public pollSubscribe(value: number) {
-		const index = this._subscriptions.indexOf(value, 0);
+	public async pollSubscribe(value: number): Promise<void> {
+		const index = this._subscriptions.indexOf(value, 0)
 		if (index == -1) {
-			console.log('subscribe' , value)
+			this.log('debug', `subscribe ${value}`)
 			this._subscriptions.push(value)
 		}
-		this.shouldBePolling =  this._subscriptions.length > 0 
+		this.shouldBePolling = this._subscriptions.length > 0
 		if (this.shouldBePolling && !this.isPolling) {
-			this.pollInUseStatus()
+			await this.pollInUseStatus()
 			// it stops by itself
 		}
 	}
@@ -42,7 +41,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 	private shouldBePolling: boolean = false
 	private isPolling: boolean = false
 
-	sleep(ms: number) {
+	async sleep(ms: number): Promise<void> {
 		return new Promise((resolve) => setTimeout(resolve, ms))
 	}
 
@@ -76,7 +75,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 				// check the status via the api
 				try {
 					this.updateStatus(InstanceStatus.Ok)
-					this.checkFeedbacks('micState','requestState')
+					this.checkFeedbacks('micState', 'requestState')
 				} catch (e: any) {
 					this.updateStatus(InstanceStatus.ConnectionFailure, e.message)
 				}
@@ -86,6 +85,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 			this.isPolling = false
 		}
 	}
+
 	async configUpdated(config: TelevicConferoConfig): Promise<void> {
 		this.config = config
 	}
@@ -107,28 +107,28 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 		UpdateVariableDefinitions(this)
 	}
 
-	async getSeatState(seatId: number){
-		return await this._api?.GetSeat(seatId) 
+	async getSeatState(seatId: number): Promise<boolean | undefined> {
+		return await this._api?.GetSeat(seatId)
 	}
 
-	async getRequestSeat(seatId: number){
+	async getRequestSeat(seatId: number): Promise<boolean | undefined> {
 		return await this._api?.GetRequestSeat(seatId)
 	}
 
-	setSeatState(seatId: number, state: boolean, request: boolean) {
-		this._api?.SetSeat(seatId, state, request)
+	async setSeatState(seatId: number, state: boolean, request: boolean): Promise<void> {
+		await this._api?.SetSeat(seatId, state, request)
 	}
 
-	startMeeting(){
-		this._api?.StartLocalMeeting()
+	async startMeeting(): Promise<void> {
+		await this._api?.StartLocalMeeting()
 	}
 
-	stopMeeting(){
-		this._api?.StopMeeting()
+	async stopMeeting(): Promise<void> {
+		await this._api?.StopMeeting()
 	}
 
-	SetRecording(state:string){
-		this._api?.SetRecording(state)
+	async SetRecording(state: string): Promise<void> {
+		await this._api?.SetRecording(state)
 	}
 }
 

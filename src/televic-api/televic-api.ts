@@ -8,20 +8,20 @@ class HTTPResponseError extends Error {
 	}
 }
 
-export interface TelevicMicStatusResponse{
-    microphoneOn: boolean
-    requestingToSpeak: boolean
+export interface TelevicMicStatusResponse {
+	microphoneOn: boolean
+	requestingToSpeak: boolean
 }
 
-export interface TelevicRecordingResponse{
+export interface TelevicRecordingResponse {
 	state: string
 }
 
-export interface TelevicVolumeResponse{
+export interface TelevicVolumeResponse {
 	gain: number
 }
 
-export interface TelevicSensitivityResponse{
+export interface TelevicSensitivityResponse {
 	input_sensitivity_offset: number
 }
 
@@ -29,7 +29,7 @@ export default class TelevicApi {
 	private _host: string
 	private _port: number
 	private _token: string
-    private _defaultHeaders: HeadersInit
+	private _defaultHeaders: HeadersInit
 
 	constructor(host: string, port: number, token: string) {
 		this._host = host
@@ -37,7 +37,7 @@ export default class TelevicApi {
 		this._token = token
 		this._defaultHeaders = {
 			Accept: 'application/json',
-			Authorization: `Bearer ${this._token}`
+			Authorization: `Bearer ${this._token}`,
 		}
 	}
 
@@ -55,86 +55,86 @@ export default class TelevicApi {
 			method: 'get',
 			headers: this._defaultHeaders,
 		})
-		this.checkStatus(response)	
+		this.checkStatus(response)
 		const data = (await response.json()) as TelevicMicStatusResponse
 		return data.microphoneOn
 	}
-	
+
 	public async GetRequestSeat(seatNbr: number): Promise<boolean> {
 		const url = `http://${this._host}:${this._port}/api/discussion/seats/${seatNbr}`
 		const response = await fetch(url, {
 			method: 'get',
 			headers: this._defaultHeaders,
 		})
-		this.checkStatus(response)	
+		this.checkStatus(response)
 		const data = (await response.json()) as TelevicMicStatusResponse
 		return data.requestingToSpeak
 	}
 
-	public async SetSeat(seatNbr: number, state: boolean, request: boolean){ 
+	public async SetSeat(seatNbr: number, state: boolean, request: boolean): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/discussion/seats/${seatNbr}`
 		const response = await fetch(url, {
 			method: 'put',
 			headers: this._defaultHeaders,
-			body: JSON.stringify({microphoneOn: state, "requestingToSpeak": request})
+			body: JSON.stringify({ microphoneOn: state, requestingToSpeak: request }),
 		})
-		return this.checkStatus(response)		
+		return this.checkStatus(response)
 	}
 
-	public async StartLocalMeeting(): Promise<boolean>{ 
+	public async StartLocalMeeting(): Promise<boolean> {
 		const url = `http://${this._host}:${this._port}/api/meeting`
 		const response = await fetch(url, {
 			method: 'post',
 			headers: this._defaultHeaders,
-			body: JSON.stringify({kind: "NewMeetingFromLocalTemplate"})
+			body: JSON.stringify({ kind: 'NewMeetingFromLocalTemplate' }),
 		})
-		this.checkStatus(response)	
+		this.checkStatus(response)
 		return true
 	}
 
-	public async StopMeeting(): Promise<boolean>{ 
+	public async StopMeeting(): Promise<boolean> {
 		const url = `http://${this._host}:${this._port}/api/meeting`
 		const response = await fetch(url, {
 			method: 'delete',
 			headers: this._defaultHeaders,
 		})
-		this.checkStatus(response)	
+		this.checkStatus(response)
 		return true
 	}
 
-	public async GetRecording() : Promise<string>{ 
+	public async GetRecording(): Promise<string> {
 		const url = `http://${this._host}:${this._port}/api/recording/state`
 		const response = await fetch(url, {
 			method: 'get',
 			headers: this._defaultHeaders,
 		})
-		this.checkStatus(response)	
+		this.checkStatus(response)
 		const data = (await response.json()) as TelevicRecordingResponse
 		return data.state
 	}
-	
-	public async SetRecording( recordingState: string){ 	
-		let recording = "idle"
-		if(recordingState == "true"){
-			recording = "recording"
+
+	public async SetRecording(recordingState: string): Promise<Response> {
+		let recording = 'idle'
+		if (recordingState == 'true') {
+			recording = 'recording'
 		}
 		const url = `http://${this._host}:${this._port}/api/recording/state`
 		const response = await fetch(url, {
 			method: 'put',
 			headers: this._defaultHeaders,
-			body: JSON.stringify({state: recording})
+			body: JSON.stringify({ state: recording }),
 		})
-		return this.checkStatus(response)		
+		return this.checkStatus(response)
 	}
 
-	public async RebootSystem(){ 
+	public async RebootSystem(): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/system/reboot`
 		const response = await fetch(url, {
 			method: 'post',
 			headers: this._defaultHeaders,
-			body: '' // JSON.stringify({})
+			body: '', // JSON.stringify({})
 		})
-		return this.checkStatus(response)		
+		return this.checkStatus(response)
 	}
 
 	public async GetLoudspeakerVolume(): Promise<number> {
@@ -143,19 +143,19 @@ export default class TelevicApi {
 			method: 'get',
 			headers: this._defaultHeaders,
 		})
-		this.checkStatus(response)	
+		this.checkStatus(response)
 		const data = (await response.json()) as TelevicVolumeResponse
 		return data.gain
 	}
 
-	public async SetLoudspeakerVolume(volume: number){ 
+	public async SetLoudspeakerVolume(volume: number): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/audio/loudspeakervolume`
 		const response = await fetch(url, {
 			method: 'put',
 			headers: this._defaultHeaders,
-			body: JSON.stringify({gain: volume})
+			body: JSON.stringify({ gain: volume }),
 		})
-		return this.checkStatus(response)		
+		return this.checkStatus(response)
 	}
 
 	public async GetDefaultChannelSelectorVolume(): Promise<number> {
@@ -164,19 +164,19 @@ export default class TelevicApi {
 			method: 'get',
 			headers: this._defaultHeaders,
 		})
-		this.checkStatus(response)	
-		const data = (await response.json())  as TelevicVolumeResponse
+		this.checkStatus(response)
+		const data = (await response.json()) as TelevicVolumeResponse
 		return data.gain
 	}
 
-	public async SetDefaultChannelSelectorVolume( volume: number){ 
+	public async SetDefaultChannelSelectorVolume(volume: number): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/audio/defaultchannelselectorvolume`
 		const response = await fetch(url, {
 			method: 'put',
 			headers: this._defaultHeaders,
-			body: JSON.stringify({gain: volume})
+			body: JSON.stringify({ gain: volume }),
 		})
-		return this.checkStatus(response)		
+		return this.checkStatus(response)
 	}
 
 	public async GetMicrophoneSensitivityOffset(seatNbr: number): Promise<number> {
@@ -185,18 +185,18 @@ export default class TelevicApi {
 			method: 'get',
 			headers: this._defaultHeaders,
 		})
-		this.checkStatus(response)	
-		const data = (await response.json())  as TelevicSensitivityResponse
+		this.checkStatus(response)
+		const data = (await response.json()) as TelevicSensitivityResponse
 		return data.input_sensitivity_offset
 	}
 
-	public async SetMicrophoneSensitivityOffset(seatNbr: number, offset: number){ 
+	public async SetMicrophoneSensitivityOffset(seatNbr: number, offset: number): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/audio/seats/${seatNbr}/inputsensitivityoffset`
 		const response = await fetch(url, {
 			method: 'put',
 			headers: this._defaultHeaders,
-			body: JSON.stringify({input_sensitivity_offset: offset})
+			body: JSON.stringify({ input_sensitivity_offset: offset }),
 		})
-		return this.checkStatus(response)		
+		return this.checkStatus(response)
 	}
 }

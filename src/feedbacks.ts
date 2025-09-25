@@ -21,19 +21,17 @@ export function UpdateFeedbacks(self: TelevicConferoInstance): void {
 					max: 200,
 				},
 			],
-			callback: (feedback) => {
-				let status = self.getSeatState(parseInt(feedback.options.seatID as string))?.then (data => {
-					console.log('seat status:', feedback.options.seatID , " -  ", data)
-					return (data? data: false)
-					})
-				return Promise.resolve(status) 
+			callback: async (feedback) => {
+				const status = await self.getSeatState(parseInt(feedback.options.seatID as string))
+				self.log('debug', `seat status: ${feedback.options.seatID} - ${status}`)
+				return status ? status : false
 			},
-			subscribe: (feedback) => {
-                self.pollSubscribe(parseInt(feedback.options.seatID as string))
-            },
-            unsubscribe: (feedback) => {
-                self.Pollunsubscribe(parseInt(feedback.options.seatID as string) )
-            },
+			subscribe: async (feedback) => {
+				await self.pollSubscribe(parseInt(feedback.options.seatID as string))
+			},
+			unsubscribe: async (feedback) => {
+				await self.pollUnsubscribe(parseInt(feedback.options.seatID as string))
+			},
 		},
 		requestState: {
 			name: 'Microphone Request State',
@@ -52,19 +50,17 @@ export function UpdateFeedbacks(self: TelevicConferoInstance): void {
 					max: 200,
 				},
 			],
-			callback: (feedback) => {
-				let status = self.getRequestSeat(parseInt(feedback.options.seatID as string))?.then (data => {
-					console.log('seat request status:', feedback.options.seatID , " -  ", data)
-					return (data? data: false)
-					})
-				return Promise.resolve(status) 
+			callback: async (feedback) => {
+				const status = await self.getRequestSeat(parseInt(feedback.options.seatID as string))
+				self.log('debug', `seat request status: ${feedback.options.seatID} - ${status}`)
+				return status ? status : false
 			},
-			subscribe: (feedback) => {
-                self.pollSubscribe(parseInt(feedback.options.seatID as string))
-            },
-            unsubscribe: (feedback) => {
-                self.Pollunsubscribe(parseInt(feedback.options.seatID as string) )
-            },
+			subscribe: async (feedback) => {
+				await self.pollSubscribe(parseInt(feedback.options.seatID as string))
+			},
+			unsubscribe: async (feedback) => {
+				await self.pollUnsubscribe(parseInt(feedback.options.seatID as string))
+			},
 		},
 	})
 }
