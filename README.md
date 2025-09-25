@@ -1,2 +1,3 @@
-# Companion-module-televic-confero
-Televic Confero module for Bitfocus companion
+# companion-module-televic-confero
+
+Televic Confero module for Bitfocus Companion
