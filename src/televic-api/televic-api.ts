@@ -71,7 +71,7 @@ export default class TelevicApi {
 		return data.requestingToSpeak
 	}
 
-	public async SetSeat(seatNbr: number, state: boolean, request: boolean) {
+	public async SetSeat(seatNbr: number, state: boolean, request: boolean): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/discussion/seats/${seatNbr}`
 		const response = await fetch(url, {
 			method: 'put',
@@ -113,7 +113,7 @@ export default class TelevicApi {
 		return data.state
 	}
 
-	public async SetRecording(recordingState: string) {
+	public async SetRecording(recordingState: string): Promise<Response> {
 		let recording = 'idle'
 		if (recordingState == 'true') {
 			recording = 'recording'
@@ -127,7 +127,7 @@ export default class TelevicApi {
 		return this.checkStatus(response)
 	}
 
-	public async RebootSystem() {
+	public async RebootSystem(): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/system/reboot`
 		const response = await fetch(url, {
 			method: 'post',
@@ -148,7 +148,7 @@ export default class TelevicApi {
 		return data.gain
 	}
 
-	public async SetLoudspeakerVolume(volume: number) {
+	public async SetLoudspeakerVolume(volume: number): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/audio/loudspeakervolume`
 		const response = await fetch(url, {
 			method: 'put',
@@ -169,7 +169,7 @@ export default class TelevicApi {
 		return data.gain
 	}
 
-	public async SetDefaultChannelSelectorVolume(volume: number) {
+	public async SetDefaultChannelSelectorVolume(volume: number): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/audio/defaultchannelselectorvolume`
 		const response = await fetch(url, {
 			method: 'put',
@@ -190,7 +190,7 @@ export default class TelevicApi {
 		return data.input_sensitivity_offset
 	}
 
-	public async SetMicrophoneSensitivityOffset(seatNbr: number, offset: number) {
+	public async SetMicrophoneSensitivityOffset(seatNbr: number, offset: number): Promise<Response> {
 		const url = `http://${this._host}:${this._port}/api/audio/seats/${seatNbr}/inputsensitivityoffset`
 		const response = await fetch(url, {
 			method: 'put',

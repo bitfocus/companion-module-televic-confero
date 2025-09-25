@@ -32,14 +32,14 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 				const state = await self.parseVariablesInString(options.state as string)
 				const request = await self.parseVariablesInString(options.request as string)
 				self.log('debug', `Set Microphone State  ${seatID} to ${state} [${request}]`)
-				self.setSeatState(parseInt(seatID), JSON.parse(state), JSON.parse(request))
+				await self.setSeatState(parseInt(seatID), JSON.parse(state), JSON.parse(request))
 			},
 		},
 		startMeeting: {
 			name: 'Start a Local meeting',
 			options: [],
 			callback: async () => {
-				self.startMeeting()
+				await self.startMeeting()
 				self.log('debug', 'Meeting Started')
 			},
 		},
@@ -47,7 +47,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 			name: 'Stop a meeting',
 			options: [],
 			callback: async () => {
-				self.stopMeeting()
+				await self.stopMeeting()
 				self.log('debug', 'Meeting Stopped')
 			},
 		},
@@ -63,7 +63,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 			],
 			callback: async ({ options }) => {
 				const state = await self.parseVariablesInString(options.state as string)
-				self.SetRecording(state)
+				await self.SetRecording(state)
 				self.log('debug', `Recording ${state}`)
 			},
 		},
