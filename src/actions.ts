@@ -9,13 +9,13 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 				{
 					id: 'seatID',
 					type: 'number',
-					label: 'seat Number',
+					label: 'Seat Number',
 					default: 1,
 					min: 1,
 					max: 200,
 				},
 				{
-					id: 'state',
+					id: 'tate',
 					type: 'checkbox',
 					label: 'State',
 					default: true,
@@ -23,14 +23,14 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 				{
 					id: 'request',
 					type: 'checkbox',
-					label: 'request',
+					label: 'Request',
 					default: true,
 				},
 			],
 			callback: async ({ options }) => {
-				const seatID = await self.parseVariablesInString(options.seatID as string)
-				const state = await self.parseVariablesInString(options.state as string)
-				const request = await self.parseVariablesInString(options.request as string)
+				const seatID = options.seatID as string
+				const state = options.state as string
+				const request = options.request as string
 				self.log('debug', `Set Microphone State  ${seatID} to ${state} [${request}]`)
 				await self.setSeatState(parseInt(seatID), JSON.parse(state), JSON.parse(request))
 			},
@@ -62,7 +62,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 				},
 			],
 			callback: async ({ options }) => {
-				const state = await self.parseVariablesInString(options.state as string)
+				const state = options.state as string
 				await self.SetRecording(state)
 				self.log('debug', `Recording ${state}`)
 			},
