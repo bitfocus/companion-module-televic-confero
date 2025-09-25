@@ -15,7 +15,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 	public Pollunsubscribe(value: number) {
 		const index = this._subscriptions.indexOf(value, 0)
 		if (index > -1) {
-			console.log('unsubscribe', value)
+			this.log('debug', `unsubscribe ${value}`)
 			this._subscriptions.splice(index, 1)
 		}
 		this.shouldBePolling = this._subscriptions.length > 0
@@ -28,7 +28,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 	public pollSubscribe(value: number) {
 		const index = this._subscriptions.indexOf(value, 0)
 		if (index == -1) {
-			console.log('subscribe', value)
+			this.log('debug', `subscribe ${value}`)
 			this._subscriptions.push(value)
 		}
 		this.shouldBePolling = this._subscriptions.length > 0

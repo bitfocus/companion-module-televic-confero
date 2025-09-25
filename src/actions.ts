@@ -31,7 +31,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 				const seatID = await self.parseVariablesInString(options.seatID as string)
 				const state = await self.parseVariablesInString(options.state as string)
 				const request = await self.parseVariablesInString(options.request as string)
-				console.log('Set Microphone State  ', seatID, ' to ', state, ' [', request, ']')
+				self.log('debug', `Set Microphone State  ${seatID} to ${state} [${request}]`)
 				self.setSeatState(parseInt(seatID), JSON.parse(state), JSON.parse(request))
 			},
 		},
@@ -40,7 +40,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 			options: [],
 			callback: async () => {
 				self.startMeeting()
-				console.log('Meeting Started')
+				self.log('debug', 'Meeting Started')
 			},
 		},
 		stopMeeting: {
@@ -48,7 +48,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 			options: [],
 			callback: async () => {
 				self.stopMeeting()
-				console.log('Meeting Stopped')
+				self.log('debug', 'Meeting Stopped')
 			},
 		},
 		RecordingState: {
@@ -64,7 +64,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 			callback: async ({ options }) => {
 				const state = await self.parseVariablesInString(options.state as string)
 				self.SetRecording(state)
-				console.log('Recording ', state)
+				self.log('debug', `Recording ${state}`)
 			},
 		},
 	})

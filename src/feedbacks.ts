@@ -23,7 +23,7 @@ export function UpdateFeedbacks(self: TelevicConferoInstance): void {
 			],
 			callback: (feedback) => {
 				let status = self.getSeatState(parseInt(feedback.options.seatID as string))?.then((data) => {
-					console.log('seat status:', feedback.options.seatID, ' -  ', data)
+					self.log('debug', `seat status: ${feedback.options.seatID} - ${data}`)
 					return data ? data : false
 				})
 				return Promise.resolve(status)
@@ -54,7 +54,7 @@ export function UpdateFeedbacks(self: TelevicConferoInstance): void {
 			],
 			callback: (feedback) => {
 				let status = self.getRequestSeat(parseInt(feedback.options.seatID as string))?.then((data) => {
-					console.log('seat request status:', feedback.options.seatID, ' -  ', data)
+					self.log('debug', `seat request status: ${feedback.options.seatID} - ${data}`)
 					return data ? data : false
 				})
 				return Promise.resolve(status)
