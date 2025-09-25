@@ -10,16 +10,15 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 	config!: TelevicConferoConfig // Setup in init()
 	private _api: TelevicApi | null = null
 
-	private _subscriptions= new Array()
-
+	private _subscriptions = new Array()
 
 	public Pollunsubscribe(value: number) {
-		const index = this._subscriptions.indexOf(value, 0);
+		const index = this._subscriptions.indexOf(value, 0)
 		if (index > -1) {
-			console.log('unsubscribe' , value)
-			this._subscriptions.splice(index, 1);
+			console.log('unsubscribe', value)
+			this._subscriptions.splice(index, 1)
 		}
-		this.shouldBePolling = this._subscriptions.length > 0 
+		this.shouldBePolling = this._subscriptions.length > 0
 		if (this.shouldBePolling && !this.isPolling) {
 			this.pollInUseStatus()
 			// it stops by itself
@@ -27,12 +26,12 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 	}
 
 	public pollSubscribe(value: number) {
-		const index = this._subscriptions.indexOf(value, 0);
+		const index = this._subscriptions.indexOf(value, 0)
 		if (index == -1) {
-			console.log('subscribe' , value)
+			console.log('subscribe', value)
 			this._subscriptions.push(value)
 		}
-		this.shouldBePolling =  this._subscriptions.length > 0 
+		this.shouldBePolling = this._subscriptions.length > 0
 		if (this.shouldBePolling && !this.isPolling) {
 			this.pollInUseStatus()
 			// it stops by itself
@@ -76,7 +75,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 				// check the status via the api
 				try {
 					this.updateStatus(InstanceStatus.Ok)
-					this.checkFeedbacks('micState','requestState')
+					this.checkFeedbacks('micState', 'requestState')
 				} catch (e: any) {
 					this.updateStatus(InstanceStatus.ConnectionFailure, e.message)
 				}
@@ -107,11 +106,11 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 		UpdateVariableDefinitions(this)
 	}
 
-	async getSeatState(seatId: number){
-		return await this._api?.GetSeat(seatId) 
+	async getSeatState(seatId: number) {
+		return await this._api?.GetSeat(seatId)
 	}
 
-	async getRequestSeat(seatId: number){
+	async getRequestSeat(seatId: number) {
 		return await this._api?.GetRequestSeat(seatId)
 	}
 
@@ -119,15 +118,15 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 		this._api?.SetSeat(seatId, state, request)
 	}
 
-	startMeeting(){
+	startMeeting() {
 		this._api?.StartLocalMeeting()
 	}
 
-	stopMeeting(){
+	stopMeeting() {
 		this._api?.StopMeeting()
 	}
 
-	SetRecording(state:string){
+	SetRecording(state: string) {
 		this._api?.SetRecording(state)
 	}
 }
