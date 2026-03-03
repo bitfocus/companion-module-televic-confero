@@ -51,7 +51,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 
 	async init(config: TelevicConferoConfig): Promise<void> {
 		this.config = config
-		this._api = new TelevicApi(config.host, config.port, config.token)
+		this._api = new TelevicApi(config.host, config.port, config.token, config.useHttps, config.allowSelfSigned)
 		this.updateStatus(InstanceStatus.Ok)
 
 		this.updateActions() // export actions
@@ -88,6 +88,7 @@ export class TelevicConferoInstance extends InstanceBase<TelevicConferoConfig> {
 
 	async configUpdated(config: TelevicConferoConfig): Promise<void> {
 		this.config = config
+		this._api = new TelevicApi(config.host, config.port, config.token, config.useHttps, config.allowSelfSigned)
 	}
 
 	// Return config fields for web config

@@ -4,6 +4,8 @@ export interface TelevicConferoConfig {
 	host: string
 	port: number
 	token: string
+	useHttps: boolean
+	allowSelfSigned: boolean
 }
 
 export function GetConfigFields(): SomeCompanionConfigField[] {
@@ -23,12 +25,28 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 			min: 1,
 			max: 65535,
 			default: 9080,
+			tooltip: 'The default when using HTTP is 9080. When using HTTPS, the default port is 9443.',
 		},
 		{
 			type: 'textinput',
 			id: 'token',
 			label: 'API Bearer token',
 			width: 25,
+		},
+		{
+			type: 'checkbox',
+			id: 'useHttps',
+			label: 'Use HTTPS',
+			width: 6,
+			default: false,
+		},
+		{
+			type: 'checkbox',
+			id: 'allowSelfSigned',
+			label: 'Allow Self-Signed Certificate',
+			width: 6,
+			default: false,
+			isVisibleExpression: '$(options.useHttps) === true',
 		},
 	]
 }
