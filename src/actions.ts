@@ -15,7 +15,7 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 					max: 200,
 				},
 				{
-					id: 'tate',
+					id: 'state',
 					type: 'checkbox',
 					label: 'State',
 					default: true,
@@ -28,11 +28,11 @@ export function UpdateActions(self: TelevicConferoInstance): void {
 				},
 			],
 			callback: async ({ options }) => {
-				const seatID = options.seatID as string
-				const state = options.state as string
-				const request = options.request as string
-				self.log('debug', `Set Microphone State  ${seatID} to ${state} [${request}]`)
-				await self.setSeatState(parseInt(seatID), JSON.parse(state), JSON.parse(request))
+				const seatID = Number(options.seatID)
+				const state = Boolean(options.state)
+				const request = Boolean(options.request)
+				self.log('debug', `Set Microphone State ${seatID} to ${state} [${request}]`)
+				await self.setSeatState(seatID, state, request)
 			},
 		},
 		startMeeting: {
