@@ -24,7 +24,7 @@
 		"node-fetch": "^3.3.2"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.7.1",
+		"@companion-module/tools": "^2.8.0",
 		"@types/node": "^22.19.13",
 		"eslint": "^9.39.3",
 		"husky": "^9.1.7",
